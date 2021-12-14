@@ -1,21 +1,21 @@
 package sdf1;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class HttpClientConnection implements Runnable {
     private Socket socket;
+    //private List<Path> dir = new ArrayList<Path>();
 
     public HttpClientConnection(Socket socket) {
         this.socket = socket;
@@ -30,14 +30,14 @@ public class HttpClientConnection implements Runnable {
         try (
                 InputStreamReader isr = new InputStreamReader(socket.getInputStream());
                 BufferedReader br = new BufferedReader(isr);
-                InputStream is = socket.getInputStream();
+                // InputStream is = socket.getInputStream();
                 
                 // OutputStream os = socket.getOutputStream();
                 // BufferedOutputStream bos = new BufferedOutputStream(os);
                 // DataOutputStream dos = new DataOutputStream(bos);
             ) {
-                BufferedInputStream bis = new BufferedInputStream(is);
-                DataInputStream dis = new DataInputStream(bis);
+                // BufferedInputStream bis = new BufferedInputStream(is);
+                // DataInputStream dis = new DataInputStream(bis);
                 request = br.readLine();
                 //request = dis.readUTF();
                 System.out.println(request);
@@ -55,6 +55,14 @@ public class HttpClientConnection implements Runnable {
                 }
 
                 boolean isResourceExist = findResource(reqresource);
+                if (!isResourceExist) {
+                    response = "HTTP/1.1 404 Not Found\r\n\r\n" + reqresource + " not found\r\n";
+                    return;
+                }
+                else {
+                    response = "HTTP/1.1 200 OK\r\n\r\n";
+                    return;
+                }
                 //response = getResponse(requestrec);
             
                 //dos.writeUTF(response);
@@ -73,7 +81,8 @@ public class HttpClientConnection implements Runnable {
 
     public static boolean findResource(String resource) {
         
-
         return false;
     }
+
+
 }
