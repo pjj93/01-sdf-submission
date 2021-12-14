@@ -38,7 +38,7 @@ public class HttpClientConnection implements Runnable {
                 // DataInputStream dis = new DataInputStream(bis);
                 request = br.readLine();
                 //request = dis.readUTF();
-                System.out.println(request);
+                //System.out.println(request);
                 
                 requestrec = Arrays.asList(request.split(" "));
                 
