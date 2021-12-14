@@ -50,7 +50,7 @@ public class Main {
 
     public static void startServer(int port, List<String> docRoots) {
         try {
-            HttpServer server = new HttpServer(port);
+            HttpServer server = new HttpServer(port, docRoots);
             // System.out.println("Starting server on port " + port + "....");
             boolean isDir = server.checkDir(docRoots);
             if (!isDir) {
@@ -65,6 +65,8 @@ public class Main {
                 HttpClientConnection worker = new HttpClientConnection(socket);
                 threadpool.submit(worker);
             }
+                // Thread t = new Thread();
+                // t.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

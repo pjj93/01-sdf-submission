@@ -13,15 +13,22 @@ public class HttpServer {
     private ServerSocket server;
     private List<Path> dir = new ArrayList<Path>();
 
-    public HttpServer(int port) throws IOException {
+    public HttpServer(int port, List<String> docRoots) throws IOException {
         this.server = new ServerSocket(port);
+        for (int i=0; i< docRoots.size(); i++) {
+            Path p = Paths.get(docRoots.get(i));
+            dir.add(p);
+        }
     }
 
     public boolean checkDir(List<String> docRoots) {
         List<Path> dir = new ArrayList<Path>();
 
         for (int i=0; i< docRoots.size(); i++) {
+            // Path path = Paths.get("").toAbsolutePath().getRoot();
+            // String s = path.toString() + docRoots.get(i);
             Path p = Paths.get(docRoots.get(i));
+            //Path p = Paths.get(docRoots.get(i));
             if (!Files.exists(p)) {
                 System.err.println("Path: " + p.toString() + " does not exist!");
                 return false;
