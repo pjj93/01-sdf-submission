@@ -2,6 +2,7 @@ package sdf1;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,5 +42,9 @@ public class HttpServer {
 
     public void stop() throws IOException {
         this.server.close();
+    }
+
+    public Socket accept() throws IOException {
+        return this.server.accept();
     }
 }

@@ -1,9 +1,12 @@
 package sdf1;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,7 +38,17 @@ public class Main {
                 docRoots.add("./static");
             }
         }
+        
+        startServer(port, docRoots);
+        // test output for Task 3
+        // System.out.println("Port number: " + port);
+        // for (int i = 0; i< docRoots.size(); i++) {
+        //     System.out.println(docRoots.get(i));
+        // }
+        
+    }
 
+    public static void startServer(int port, List<String> docRoots) {
         try {
             HttpServer server = new HttpServer(port);
             // System.out.println("Starting server on port " + port + "....");
@@ -44,17 +57,17 @@ public class Main {
                 server.stop();
                 System.exit(1);
             }
+            ExecutorService threadpool = Executors.newFixedThreadPool(3);
+
+            while (true) {
+                Socket socket = server.accept();
+                System.out.println("A client has connected!");
+                HttpClientConnection worker = new HttpClientConnection(socket);
+                threadpool.submit(worker);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        
-        
-        // test output for Task 3
-        // System.out.println("Port number: " + port);
-        // for (int i = 0; i< docRoots.size(); i++) {
-        //     System.out.println(docRoots.get(i));
-        // }
         
     }
 }
