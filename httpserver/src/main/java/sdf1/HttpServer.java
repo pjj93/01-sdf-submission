@@ -54,4 +54,8 @@ public class HttpServer {
     public Socket accept() throws IOException {
         return this.server.accept();
     }
+
+    public Path getDirs(int i) {
+        return this.dir.get(i);
+    }
 }

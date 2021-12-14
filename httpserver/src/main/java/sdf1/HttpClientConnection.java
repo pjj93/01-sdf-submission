@@ -49,6 +49,12 @@ public class HttpClientConnection implements Runnable {
                     response = "HTTP/1.1 405 Method Not Allowed\r\n\r\n" + requestrec.get(0) + " not supported\r\n";
                     return;
                 }
+                String reqresource = requestrec.get(1);
+                if (reqresource.equals("/")) {
+                    reqresource = "/index.html";
+                }
+
+                boolean isResourceExist = findResource(reqresource);
                 //response = getResponse(requestrec);
             
                 //dos.writeUTF(response);
@@ -63,5 +69,11 @@ public class HttpClientConnection implements Runnable {
             return false;
         }
         return true;
+    }
+
+    public static boolean findResource(String resource) {
+        
+
+        return false;
     }
 }
