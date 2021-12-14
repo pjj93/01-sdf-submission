@@ -28,7 +28,7 @@ public class HttpClientConnection implements Runnable {
         String response = "";
 
         try (
-                InputStreamReader isr = new InputStreamReader(socket.getInputStream();
+                InputStreamReader isr = new InputStreamReader(socket.getInputStream());
                 BufferedReader br = new BufferedReader(isr);
                 InputStream is = socket.getInputStream();
                 
@@ -47,6 +47,7 @@ public class HttpClientConnection implements Runnable {
                 boolean isGET = getResponse(requestrec);
                 if (!isGET) {
                     response = "HTTP/1.1 405 Method Not Allowed\r\n\r\n" + requestrec.get(0) + " not supported\r\n";
+                    return;
                 }
                 //response = getResponse(requestrec);
             

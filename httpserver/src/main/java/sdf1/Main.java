@@ -59,12 +59,12 @@ public class Main {
             }
             ExecutorService threadpool = Executors.newFixedThreadPool(3);
 
-            while (true) {
+            //while (true) {
                 Socket socket = server.accept();
                 System.out.println("A client has connected!");
                 HttpClientConnection worker = new HttpClientConnection(socket);
                 threadpool.submit(worker);
-            }
+            //}
                 // Thread t = new Thread();
                 // t.start();
         } catch (IOException e) {
