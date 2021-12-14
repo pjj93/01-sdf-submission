@@ -1,14 +1,12 @@
 package sdf1;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,9 +30,9 @@ public class HttpClientConnection implements Runnable {
                 BufferedReader br = new BufferedReader(isr);
                 // InputStream is = socket.getInputStream();
                 
-                // OutputStream os = socket.getOutputStream();
-                // BufferedOutputStream bos = new BufferedOutputStream(os);
-                // DataOutputStream dos = new DataOutputStream(bos);
+                OutputStream os = socket.getOutputStream();
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+                DataOutputStream dos = new DataOutputStream(bos);
             ) {
                 // BufferedInputStream bis = new BufferedInputStream(is);
                 // DataInputStream dis = new DataInputStream(bis);
@@ -47,6 +45,8 @@ public class HttpClientConnection implements Runnable {
                 boolean isGET = getResponse(requestrec);
                 if (!isGET) {
                     response = "HTTP/1.1 405 Method Not Allowed\r\n\r\n" + requestrec.get(0) + " not supported\r\n";
+                    dos.writeUTF(response);
+                    dos.flush();
                     return;
                 }
                 String reqresource = requestrec.get(1);
@@ -57,6 +57,8 @@ public class HttpClientConnection implements Runnable {
                 boolean isResourceExist = findResource(reqresource);
                 if (!isResourceExist) {
                     response = "HTTP/1.1 404 Not Found\r\n\r\n" + reqresource + " not found\r\n";
+                    dos.writeUTF(response);
+                    dos.flush();
                     return;
                 }
                 else {
