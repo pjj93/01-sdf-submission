@@ -1,9 +1,12 @@
 package sdf1;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -25,17 +28,20 @@ public class HttpClientConnection implements Runnable {
         String response = "";
 
         try (
-                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                // InputStream is = socket.getInputStream();
-                // BufferedInputStream bis = new BufferedInputStream(is);
-                // DataInputStream dis = new DataInputStream(bis);
-                OutputStream os = socket.getOutputStream();
-                BufferedOutputStream bos = new BufferedOutputStream(os);
-                DataOutputStream dos = new DataOutputStream(bos);
+                InputStreamReader isr = new InputStreamReader(socket.getInputStream();
+                BufferedReader br = new BufferedReader(isr);
+                InputStream is = socket.getInputStream();
+                
+                // OutputStream os = socket.getOutputStream();
+                // BufferedOutputStream bos = new BufferedOutputStream(os);
+                // DataOutputStream dos = new DataOutputStream(bos);
             ) {
+                BufferedInputStream bis = new BufferedInputStream(is);
+                DataInputStream dis = new DataInputStream(bis);
                 request = br.readLine();
-                System.out.println(request);
                 //request = dis.readUTF();
+                System.out.println(request);
+                
                 requestrec = Arrays.asList(request.split(" "));
                 
                 boolean isGET = getResponse(requestrec);
@@ -44,7 +50,7 @@ public class HttpClientConnection implements Runnable {
                 }
                 //response = getResponse(requestrec);
             
-                dos.writeUTF(response);
+                //dos.writeUTF(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
